@@ -1,5 +1,13 @@
 import json
 import os
+
+# PaddlePaddle/PaddleOCR CPU compatibility: avoid the oneDNN/PIR path that can
+# trigger ConvertPirAttribute2RuntimeAttribute on cloud CPU environments.
+os.environ.setdefault("FLAGS_use_mkldnn", "0")
+os.environ.setdefault("PADDLE_PDX_ENABLE_MKLDNN_BYDEFAULT", "0")
+os.environ.setdefault("FLAGS_enable_pir_api", "0")
+os.environ.setdefault("FLAGS_enable_pir_in_executor", "0")
+
 import re
 import sqlite3
 import tempfile
@@ -41,7 +49,10 @@ st.set_page_config(
 # ==================================================
 @st.cache_resource
 def load_ocr():
-    return PaddleOCR(lang="en")
+    return PaddleOCR(
+        lang="en",
+        enable_mkldnn=False,
+    )
 
 
 ocr = load_ocr()
