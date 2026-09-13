@@ -1,0 +1,10 @@
+.venv/
+.venv-paddleocr/
+__pycache__/
+*.pyc
+.streamlit/
+.DS_Store
+*.db
+*.sqlite
+*.sqlite3
+reports/*.json
